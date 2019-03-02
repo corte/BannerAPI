@@ -60,7 +60,7 @@ namespace BannerApi.Logic
         private void Insert(Banner banner)
         {
             var lastId = _context.Banners.Max(p => p.Id);
-            banner.Id = lastId;
+            banner.Id = lastId + 1;
             banner.Created = DateTime.Now;
 
             _context.Banners.Add(banner);
