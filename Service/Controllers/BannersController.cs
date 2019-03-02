@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using BannerApi.Data;
 using BannerApi.Data.DbModel;
@@ -42,22 +43,47 @@ namespace BannerApi.Service.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Banner banner)
+        public ActionResult Post([FromBody] Banner banner)
         {
-            _bannerLogic.Set(banner);
+            try 
+            {
+                _bannerLogic.Set(banner);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int) HttpStatusCode.InternalServerError, ex.Message);
+            }
+
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Banner banner)
+        public ActionResult Put(int id, [FromBody] Banner banner)
         {
-            banner.Id = id;
-            _bannerLogic.Set(banner);
+            try 
+            {
+                banner.Id = id;
+                _bannerLogic.Set(banner);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int) HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            _bannerLogic.Delete(id);
+            try 
+            {
+                _bannerLogic.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int) HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }
