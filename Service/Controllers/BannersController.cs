@@ -20,6 +20,7 @@ namespace BannerApi.Service.Controllers
             _bannerLogic = bannerLogic;
         }
 
+        [HttpGet("html/{id}")]
         public ActionResult<string> GetBannerHtml(int id) 
         {
             var bannerHtml = _bannerLogic.Get(id)?.Html;
