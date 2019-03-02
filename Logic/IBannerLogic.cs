@@ -8,7 +8,7 @@ namespace BannerApi.Logic
     {
         List<Banner> GetAll();
         Banner Get(int id);
-        void Set(Banner banner);
+        int Set(Banner banner);
         void Delete(int id);
     }
 }

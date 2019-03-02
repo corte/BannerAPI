@@ -19,10 +19,10 @@ namespace BannerApi.Logic
 
         public Banner Get(int id) => _context.Banners.FirstOrDefault(banner => banner.Id == id);
 
-        public void Set(Banner banner)
+        public int Set(Banner banner)
         {
             if (!banner.Html.ValidateHtml())
-                throw new Exception("Invalid html!");
+                throw new FormatException("Invalid html!");
 
             if (banner.Id > 0)
             {
@@ -32,6 +32,7 @@ namespace BannerApi.Logic
             {
                 Insert(banner);
             }
+            return banner.Id;
         }
 
         public void Delete(int id)
