@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BannerApi.Data;
+using BannerApi.Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,8 +28,9 @@ namespace BannerApi.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+            services.AddScoped<IBannerLogic, BannerLogic>();
             services.AddDbContext<ApiDbContext>(opt => opt.UseInMemoryDatabase("BannerDB"));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,8 +45,11 @@ namespace BannerApi.Service
                 app.UseHsts();
             }
 
-            var dbContext = app.ApplicationServices.GetService<ApiDbContext>();
-            dbContext.AddInitialData();
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<ApiDbContext>();
+                dbContext.AddInitialData();
+            }
 
             app.UseHttpsRedirection();
             app.UseMvc();
