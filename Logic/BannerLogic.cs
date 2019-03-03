@@ -37,24 +37,24 @@ namespace BannerApi.Logic
 
         public void Delete(int id)
         {
-            var entry = _context.Banners.FirstOrDefault(b => b.Id == id);
-            if (entry == null)
+            var banner = _context.Banners.FirstOrDefault(b => b.Id == id);
+            if (banner == null)
                 throw new KeyNotFoundException($"Banner with id '{id}' not found");
             
-            _context.Banners.Remove(entry);
+            _context.Banners.Remove(banner);
             _context.SaveChanges();
         }
 
         private void Update(Banner banner)
         {
-            var entry = _context.Banners.FirstOrDefault(b => b.Id == banner.Id);
-            if (entry == null)
+            var bannerToUpdate = _context.Banners.FirstOrDefault(b => b.Id == banner.Id);
+            if (bannerToUpdate == null)
                 throw new KeyNotFoundException($"Banner with id '{banner.Id}' not found");
 
-            entry.Html = banner.Html;
-            entry.Modified = DateTime.Now;
+            bannerToUpdate.Html = banner.Html;
+            bannerToUpdate.Modified = DateTime.Now;
 
-            _context.Banners.Update(entry);
+            _context.Banners.Update(bannerToUpdate);
             _context.SaveChanges();
         }
 
