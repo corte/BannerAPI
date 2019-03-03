@@ -3,7 +3,7 @@ using BannerApi.Data.DbModel;
 
 namespace BannerApi.Data
 {
-    public static class TestData
+    public static class InitialData
     {
         public static void AddInitialData(this ApiDbContext context)
         {

@@ -39,18 +39,16 @@ namespace BannerApi.Service
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                using (var serviceScope = app.ApplicationServices.CreateScope())
+                {
+                    var dbContext = serviceScope.ServiceProvider.GetService<ApiDbContext>();
+                    dbContext.AddInitialData();
+                }
             }
             else
             {
                 app.UseHsts();
             }
-
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetService<ApiDbContext>();
-                dbContext.AddInitialData();
-            }
-
             app.UseHttpsRedirection();
             app.UseMvc();
         }
